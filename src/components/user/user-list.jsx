@@ -9,7 +9,7 @@ const UsersList = ({ children, users }) => {
 		);
 
 	return (
-		<div className='max-w-[500px] m-auto p-4 space-y-4'>
+		<div className='max-w-[600px] m-auto p-4 space-y-4'>
 			{children}
 			{usersRendered}
 		</div>

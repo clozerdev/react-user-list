@@ -1,11 +1,7 @@
-const UserStatus = ({ active }) => {
-	const activeClassName = active ? 'text-green' : 'text-red';
-
-	return (
-		<span className={activeClassName}>
-			{active ? 'Activo' : 'Inactivo'}
-		</span>
-	);
-};
+const UserStatus = ({ active }) => (
+	<span className={active ? 'text-green' : 'text-red'}>
+		{active ? 'Activo' : 'Inactivo'}
+	</span>
+);
 
 export default UserStatus;

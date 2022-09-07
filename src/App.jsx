@@ -1,4 +1,4 @@
-import UsersList from './components/user/users-list';
+import UsersList from './components/user/user-list';
 
 const USERS = [
 	{
@@ -21,12 +21,10 @@ const USERS = [
 	}
 ];
 
-const App = () => {
-	return (
-		<UsersList users={USERS}>
-			<h1 className='font-bold text-xl'>Listado de usuarios</h1>
-		</UsersList>
-	);
-};
+const App = () => (
+	<UsersList users={USERS}>
+		<h1 className='font-bold text-xl'>Listado de usuarios</h1>
+	</UsersList>
+);
 
 export default App;
