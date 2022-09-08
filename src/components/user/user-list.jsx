@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import useFilters from '../../hooks/use-filters';
+import useFilters from '../../lib/hooks/use-filters';
 import UsersListFilter from './user-list-filters';
 import UsersListRows from './user-list-rows';
 
