@@ -3,7 +3,7 @@ module.exports = {
 	content: ['./src/**/*.{js,jsx}'],
 	theme: {
 		fontSize: {
-			role: '0.75rem',
+			role: '0.75rem', // 12px
 			xs: '0.875rem', // 14px
 			base: '1rem', // 16px
 			lg: '1.25rem', // 20px
@@ -11,7 +11,8 @@ module.exports = {
 			'2xl': '3rem' // 48px
 		},
 		fontFamily: {
-			sans: ['Poppins', 'Helvetica', 'Arial'] // Default font
+			sans: ['Poppins', 'Helvetica', 'Arial'], // Default font
+			nunito: ['Nunito', 'Helvetica', 'Arial'] // Optional font
 		},
 		borderRadius: {
 			sm: '0.5rem', // 8px

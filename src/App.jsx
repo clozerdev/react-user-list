@@ -21,10 +21,6 @@ const USERS = [
 	}
 ];
 
-const App = () => (
-	<UsersList users={USERS}>
-		<h1 className='font-bold text-xl'>Listado de usuarios</h1>
-	</UsersList>
-);
+const App = () => <UsersList initialUsers={USERS} />;
 
 export default App;
