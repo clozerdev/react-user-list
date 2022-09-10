@@ -13,6 +13,9 @@ module.exports = {
 			sans: ['Poppins', 'Helvetica', 'Arial'], // Default font
 			nunito: ['Nunito', 'Helvetica', 'Arial'] // Optional font
 		},
+		borderWidth: {
+			border: '1px'
+		},
 		borderRadius: {
 			sm: '0.5rem', // 8px
 			md: '1rem' // 16px
