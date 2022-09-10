@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { SORT_OPTIONS } from '../../constants/sort-options.constant';
 
-const useFilters = () => {
+export const useFilters = () => {
 	const [filters, setFilters] = useState({
 		search: '',
 		onlyActive: false,
-		sortBy: 0
+		sortBy: SORT_OPTIONS.DEFAULT
 	});
 
 	const setSearch = search =>
@@ -19,11 +20,16 @@ const useFilters = () => {
 			sortBy
 		});
 
-	const setOnlyActive = onlyActive =>
+	const setOnlyActive = onlyActive => {
+		const option = onlyActive && filters.sortBy === SORT_OPTIONS.ACTIVE;
+		const newSortBy = option ? SORT_OPTIONS.DEFAULT : filters.sortBy;
+
 		setFilters({
 			...filters,
+			sortBy: newSortBy,
 			onlyActive
 		});
+	};
 
 	return {
 		...filters,
@@ -32,5 +38,3 @@ const useFilters = () => {
 		setOnlyActive
 	};
 };
-
-export default useFilters;

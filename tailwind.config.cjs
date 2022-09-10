@@ -3,7 +3,6 @@ module.exports = {
 	content: ['./src/**/*.{js,jsx}'],
 	theme: {
 		fontSize: {
-			role: '0.75rem', // 12px
 			xs: '0.875rem', // 14px
 			base: '1rem', // 16px
 			lg: '1.25rem', // 20px
@@ -19,25 +18,24 @@ module.exports = {
 			md: '1rem' // 16px
 		},
 		boxShadow: {
-			DEFAULT: '0px 0px 8px',
-			md: '0px 0px 12px'
+			DEFAULT: '0px 0px 8px rgba(69, 69, 69, 0.2)',
+			md: '0px 0px 12px rgba(69, 69, 69, 0.3)'
 		},
 		maxWidth: {
-			container: '1280px'
+			container: '750px'
 		},
-		extend: {
-			colors: {
-				blue: '#a0ebff',
-				purple: '#dbceff',
-				red: '#ce3131',
-				green: '#13b176',
-				gray: '#454545',
-				lightgray: '#cfcfcf',
-				black: '#000000',
-				white: '#ffffff',
-				overlay: '#000000b3'
-			}
-		}
+		colors: {
+			blue: '#a0ebff',
+			purple: '#dbceff',
+			red: '#ce3131',
+			green: '#13b176',
+			gray: '#454545',
+			lightgray: '#cfcfcf',
+			black: '#000000',
+			white: '#ffffff',
+			overlay: '#000000b3'
+		},
+		extend: {}
 	},
 	plugins: []
 };

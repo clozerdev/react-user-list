@@ -1,3 +1,7 @@
 .flex-c-c {
 	@apply flex items-center justify-center;
 }
+
+.flex-c-b {
+	@apply flex items-center justify-between;
+}
