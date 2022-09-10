@@ -1,20 +1,19 @@
-import { useState } from 'react';
 import { useFilters } from '../../lib/hooks/use-filters';
 import {
 	filterActiveUsers,
 	filterUsersByName,
+	paginateUsers,
 	sortUsers
 } from '../../lib/users/filter-users';
 import UsersListFilter from './user-list-filters';
+import UserListPagination from './user-list-pagination';
 import UsersListRows from './user-list-rows';
 
 const UsersList = ({ initialUsers }) => {
-	const { search, onlyActive, sortBy, ...setFiltersFunctions } = useFilters();
-	const { users } = useUsers(initialUsers);
+	const { filters, setPage, setItemsPerPage, ...setFiltersFunctions } =
+		useFilters();
 
-	let usersFiltered = filterActiveUsers(users, onlyActive);
-	usersFiltered = filterUsersByName(usersFiltered, search);
-	usersFiltered = sortUsers(usersFiltered, sortBy);
+	const { users, totalPages } = getUsers(initialUsers, filters);
 
 	return (
 		<div className='max-w-container mx-auto p-4'>
@@ -22,19 +21,35 @@ const UsersList = ({ initialUsers }) => {
 				Listado de usuarios
 			</h1>
 			<UsersListFilter
-				search={search}
-				onlyActive={onlyActive}
-				sortBy={sortBy}
+				search={filters.search}
+				onlyActive={filters.onlyActive}
+				sortBy={filters.sortBy}
 				{...setFiltersFunctions}
 			/>
-			<UsersListRows users={usersFiltered} />
+			<UsersListRows users={users} />
+			<UserListPagination
+				page={filters.page}
+				itemsPerPage={filters.itemsPerPage}
+				setPage={setPage}
+				setItemsPerPage={setItemsPerPage}
+				totalPages={totalPages}
+			/>
 		</div>
 	);
 };
 
-const useUsers = initialUsers => {
-	const [users, setUsers] = useState(initialUsers);
-	return { users, setUsers };
+const getUsers = (
+	initialUsers,
+	{ onlyActive, search, sortBy, page, itemsPerPage }
+) => {
+	let usersFiltered = filterActiveUsers(initialUsers, onlyActive);
+	usersFiltered = filterUsersByName(usersFiltered, search);
+	usersFiltered = sortUsers(usersFiltered, sortBy);
+
+	const totalPages = Math.ceil(usersFiltered.length / itemsPerPage);
+	usersFiltered = paginateUsers(usersFiltered, page, itemsPerPage);
+
+	return { users: usersFiltered, totalPages };
 };
 
 export default UsersList;

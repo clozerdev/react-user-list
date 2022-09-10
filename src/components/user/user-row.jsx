@@ -3,7 +3,7 @@ import UserRole from './user-role';
 import UserStatus from './user-status';
 
 const UserRow = ({ username, name, active, role }) => (
-	<div className='flex items-center shadow rounded-md px-4 py-2 mb-4'>
+	<div className='flex items-center shadow rounded-md p-4 mb-4'>
 		<div className='w-[45%]'>
 			<UserDisplay name={name} username={username} />
 		</div>
