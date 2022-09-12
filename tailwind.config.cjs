@@ -38,7 +38,11 @@ module.exports = {
 			white: '#ffffff',
 			overlay: '#000000b3'
 		},
-		extend: {}
+		extend: {
+			animation: {
+				'spin-slow': 'spin 2s linear infinite'
+			}
+		}
 	},
 	plugins: []
 };

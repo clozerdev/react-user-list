@@ -27,7 +27,8 @@ const InputTextAsync = ({
 };
 
 const getIcon = (loading, success, error) => {
-	if (loading) return <UpdateIcon className='icon-row text-gray' />;
+	if (loading)
+		return <UpdateIcon className='icon-row text-gray animate-spin-slow' />;
 	if (success) return <CheckCircleIcon className='icon-row text-green' />;
 	if (error) return <CrossCircleIcon className='icon-row text-red' />;
 

@@ -8,7 +8,7 @@ export const useFilters = () => {
 		onlyActive: false,
 		sortBy: SORT_OPTIONS.DEFAULT,
 		page: 1,
-		itemsPerPage: ITEMS_PER_PAGE.EIGHT
+		itemsPerPage: ITEMS_PER_PAGE.SIX
 	});
 
 	const setSearch = search => {
