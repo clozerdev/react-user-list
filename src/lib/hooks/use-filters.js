@@ -2,14 +2,16 @@ import { useState } from 'react';
 import { ITEMS_PER_PAGE } from '../../constants/items-per-page';
 import { SORT_OPTIONS } from '../../constants/sort-options.constant';
 
+const INITIAL_STATE = {
+	search: '',
+	onlyActive: false,
+	sortBy: SORT_OPTIONS.DEFAULT,
+	page: 1,
+	itemsPerPage: ITEMS_PER_PAGE.SIX
+};
+
 export const useFilters = () => {
-	const [filters, setFilters] = useState({
-		search: '',
-		onlyActive: false,
-		sortBy: SORT_OPTIONS.DEFAULT,
-		page: 1,
-		itemsPerPage: ITEMS_PER_PAGE.SIX
-	});
+	const [filters, setFilters] = useState(INITIAL_STATE);
 
 	const setSearch = search => {
 		setFilters({
@@ -54,12 +56,29 @@ export const useFilters = () => {
 		});
 	};
 
+	const resetFilters = () => setFilters(INITIAL_STATE);
+
+	const { search, onlyActive, sortBy, page, itemsPerPage } = filters;
+
 	return {
-		filters,
-		setSearch,
-		setSortBy,
-		setOnlyActive,
-		setPage,
-		setItemsPerPage
+		filters: {
+			search,
+			onlyActive,
+			sortBy
+		},
+		pagination: {
+			page,
+			itemsPerPage
+		},
+		filtersSetters: {
+			setSearch,
+			setSortBy,
+			setOnlyActive
+		},
+		paginationSetters: {
+			setPage,
+			setItemsPerPage
+		},
+		resetFilters
 	};
 };

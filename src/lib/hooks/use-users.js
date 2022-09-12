@@ -1,42 +1,7 @@
 import { useEffect, useState } from 'react';
-import {
-	filterActiveUsers,
-	filterUsersByName,
-	paginateUsers,
-	sortUsers
-} from '../users/filter-users';
+import { findAllUsersApi } from '../api/user-api';
 
-const fetchUsers = async (setData, setError, signal) => {
-	try {
-		const response = await fetch('http://localhost:4000/users', { signal });
-
-		if (response.ok) {
-			const data = await response.json();
-			setData(data);
-		} else setError();
-	} catch (err) {
-		setError();
-	}
-};
-
-const getUsersToDisplay = (
-	users,
-	{ onlyActive, search, sortBy, page, itemsPerPage }
-) => {
-	let usersFiltered = filterActiveUsers(users, onlyActive);
-	usersFiltered = filterUsersByName(usersFiltered, search);
-	usersFiltered = sortUsers(usersFiltered, sortBy);
-
-	const { totalPages, paginatedUsers } = paginateUsers(
-		usersFiltered,
-		page,
-		itemsPerPage
-	);
-
-	return { paginatedUsers, totalPages };
-};
-
-export const useUsers = filters => {
+export const useUsers = () => {
 	const [users, setUsers] = useState({
 		data: [],
 		error: false,
@@ -59,21 +24,35 @@ export const useUsers = filters => {
 		});
 	};
 
+	const reloadUsers = () => {
+		setUsers({
+			data: [],
+			loading: true,
+			error: false
+		});
+	};
+
 	useEffect(() => {
+		if (!users.loading) return;
+
 		const controller = new AbortController();
-		fetchUsers(setData, setError, controller.signal);
+		loadUsers(setData, setError, controller.signal);
 
 		return () => controller.abort();
-	}, []);
+	}, [users.loading]);
 
-	const { paginatedUsers, totalPages } = getUsersToDisplay(
-		users.data,
-		filters
-	);
 	return {
-		users: paginatedUsers,
-		totalPages,
-		error: users.error,
-		loading: users.loading
+		users: users.data,
+		usersError: users.error,
+		usersLoading: users.loading,
+		reloadUsers
 	};
+};
+
+const loadUsers = async (setData, setError, signal) => {
+	const { users, aborted } = await findAllUsersApi(signal);
+
+	if (aborted) return;
+	if (users) setData(users);
+	else setError();
 };

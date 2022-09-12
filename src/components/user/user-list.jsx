@@ -2,8 +2,15 @@ import { useState } from 'react';
 import { USER_FORMS } from '../../constants/user-forms';
 import { useFilters } from '../../lib/hooks/use-filters';
 import { useUsers } from '../../lib/hooks/use-users';
+import {
+	filterActiveUsers,
+	filterUsersByName,
+	paginateUsers,
+	sortUsers
+} from '../../lib/users/filter-users';
 import Button from '../buttons/button';
 import UserCreateForm from '../user-forms/user-create.form';
+import UserFormLayout from '../user-forms/user-form-layout';
 import UsersListFilter from './user-list-filters';
 import UserListPagination from './user-list-pagination';
 import UsersListRows from './user-list-rows';
@@ -12,14 +19,24 @@ const UsersList = () => {
 	const { currentForm, setFiltersForm, setCreateForm } = useForm();
 	const {
 		filters,
-		setPage,
-		setItemsPerPage,
-		setOnlyActive,
-		setSearch,
-		setSortBy
+		pagination,
+		filtersSetters,
+		paginationSetters,
+		resetFilters
 	} = useFilters();
 
-	const { users, totalPages, error, loading } = useUsers(filters);
+	const { users, usersError, usersLoading, reloadUsers } = useUsers();
+	const { paginatedUsers, totalPages } = getUsersToDisplay(
+		users,
+		filters,
+		pagination
+	);
+
+	const onSuccess = () => {
+		reloadUsers();
+		resetFilters();
+		setFiltersForm();
+	};
 
 	return (
 		<div className='max-w-container mx-auto p-4'>
@@ -28,29 +45,47 @@ const UsersList = () => {
 			</h1>
 			{currentForm === USER_FORMS.FILTERS ? (
 				<UsersListFilter
-					search={filters.search}
-					onlyActive={filters.onlyActive}
-					sortBy={filters.sortBy}
-					setOnlyActive={setOnlyActive}
-					setSearch={setSearch}
-					setSortBy={setSortBy}
+					{...filters}
+					{...filtersSetters}
 					slot={
 						<Button onClick={setCreateForm}>Añadir usuario</Button>
 					}
 				/>
 			) : (
-				<UserCreateForm onClose={setFiltersForm} />
+				<UserFormLayout onClose={setFiltersForm}>
+					<UserCreateForm onSuccess={onSuccess} />
+				</UserFormLayout>
 			)}
-			<UsersListRows users={users} error={error} loading={loading} />
+			<UsersListRows
+				users={paginatedUsers}
+				error={usersError}
+				loading={usersLoading}
+			/>
 			<UserListPagination
-				page={filters.page}
-				itemsPerPage={filters.itemsPerPage}
-				setPage={setPage}
-				setItemsPerPage={setItemsPerPage}
+				{...pagination}
+				{...paginationSetters}
 				totalPages={totalPages}
 			/>
 		</div>
 	);
+};
+
+const getUsersToDisplay = (
+	users,
+	{ onlyActive, search, sortBy },
+	{ page, itemsPerPage }
+) => {
+	let usersFiltered = filterActiveUsers(users, onlyActive);
+	usersFiltered = filterUsersByName(usersFiltered, search);
+	usersFiltered = sortUsers(usersFiltered, sortBy);
+
+	const { totalPages, paginatedUsers } = paginateUsers(
+		usersFiltered,
+		page,
+		itemsPerPage
+	);
+
+	return { paginatedUsers, totalPages };
 };
 
 const useForm = () => {
