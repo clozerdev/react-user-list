@@ -20,13 +20,7 @@ const CLASSNAMES = {
 	}
 };
 
-const IconButton = ({
-	kind = 'black',
-	filled = true,
-	icon: Icon,
-	className,
-	...props
-}) => {
+const IconButton = ({ kind = 'black', filled, icon: Icon, className, ...props }) => {
 	const classNames = CLASSNAMES[kind];
 	const classNameKey = filled ? 'filled' : 'normal';
 	const kindClassname = classNames[classNameKey];

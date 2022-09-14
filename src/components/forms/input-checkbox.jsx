@@ -7,11 +7,7 @@ const InputCheckbox = ({ className, ...props }) => {
 
 	return (
 		<label className={labelClassname}>
-			<input
-				{...props}
-				type='checkbox'
-				className='opacity-0 peer absolute -top-[999vh]'
-			/>
+			<input {...props} type='checkbox' className='opacity-0 peer absolute -top-[999vh]' />
 			<CheckIcon className='hidden peer-checked:block select-none h-6 w-6' />
 		</label>
 	);

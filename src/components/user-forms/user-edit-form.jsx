@@ -1,22 +1,45 @@
 import { useContext, useState } from 'react';
 import { USER_ROLES } from '../../constants/user-roles.constant';
-import { createUserApi } from '../../lib/api/user-api';
+import { updateUserApi } from '../../lib/api/user-api';
 import { UserFormsContext } from '../../lib/contexts/user-forms-context';
-import { useCreateForm } from '../../lib/hooks/use-create-form';
+import { useEditForm } from '../../lib/hooks/use-edit-form';
 import Button from '../buttons/button';
 import InputCheckbox from '../forms/input-checkbox';
 import InputText from '../forms/input-text';
 import InputTextAsync from '../forms/input-text-async';
 import Select from '../forms/select';
 
-const UserCreateForm = () => {
-	const { onSuccess } = useContext(UserFormsContext);
+const UserEditForm = () => {
+	const { currentUser, onSuccess } = useContext(UserFormsContext);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { username, name, isFormInvalid, setName, setUsername } = useCreateForm();
+	const {
+		username,
+		name,
+		role,
+		active,
+		isFormInvalid,
+		setName,
+		setUsername,
+		setRole,
+		setActive
+	} = useEditForm(currentUser);
 
 	return (
 		<form
-			onSubmit={ev => handleSubmit(ev, name, username, setIsSubmitting, onSuccess)}
+			onSubmit={ev =>
+				handleSubmit(
+					ev,
+					{
+						id: currentUser.id,
+						name: name.value,
+						username: username.value,
+						role,
+						active
+					},
+					setIsSubmitting,
+					onSuccess
+				)
+			}
 			className='space-y-6'
 		>
 			<div className='flex justify-between'>
@@ -34,45 +57,41 @@ const UserCreateForm = () => {
 					placeholder='johndoe'
 					loading={username.loading}
 					error={username.error}
-					success={username.value && !username.loading && !username.error}
+					success={
+						username.value !== currentUser.username &&
+						!username.loading &&
+						!username.error
+					}
 					value={username.value}
 					onChange={ev => setUsername(ev.target.value)}
 				/>
 			</div>
 			<div className='flex justify-between'>
-				<Select name='role'>
+				<Select value={role} onChange={ev => setRole(ev.target.value)}>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
 					<option value={USER_ROLES.STUDENT}>Alumno</option>
 					<option value={USER_ROLES.OTHER}>Otro</option>
 				</Select>
 				<div className='flex items-center gap-2'>
-					<InputCheckbox name='active' />
+					<InputCheckbox checked={active} onChange={ev => setActive(ev.target.checked)} />
 					<span>Activo</span>
 				</div>
 				<Button type='submit' disabled={isFormInvalid || isSubmitting}>
-					{isSubmitting ? 'Cargando...' : 'Crear usuario'}
+					{isSubmitting ? 'Cargando...' : 'Editar usuario'}
 				</Button>
 			</div>
 		</form>
 	);
 };
 
-const handleSubmit = async (ev, name, username, setIsSubmitting, onSuccess) => {
+const handleSubmit = async (ev, user, setIsSubmitting, onSuccess) => {
 	ev.preventDefault();
 	setIsSubmitting(true);
 
-	const user = {
-		id: crypto.randomUUID(),
-		name: name.value,
-		username: username.value,
-		role: ev.target.role.value,
-		active: ev.target.active.checked
-	};
-
-	const success = await createUserApi(user);
+	const success = await updateUserApi(user);
 
 	if (success) onSuccess();
 	else setIsSubmitting(false);
 };
 
-export default UserCreateForm;
+export default UserEditForm;

@@ -14,6 +14,34 @@ export const createUserApi = async user => {
 	}
 };
 
+export const updateUserApi = async user => {
+	try {
+		const res = await fetch(`http://localhost:4000/users/${user.id}`, {
+			method: 'PATCH',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(user)
+		});
+
+		return res.ok;
+	} catch {
+		return false;
+	}
+};
+
+export const deleteUserApi = async userId => {
+	try {
+		const res = await fetch(`http://localhost:4000/users/${userId}`, {
+			method: 'DELETE'
+		});
+
+		return res.ok;
+	} catch {
+		return false;
+	}
+};
+
 export const findAllUsersApi = async signal => {
 	try {
 		const res = await fetch('http://localhost:4000/users', { signal });
@@ -39,10 +67,7 @@ export const findAllUsersApi = async signal => {
 
 export const findUserByUsername = async (username, signal) => {
 	try {
-		const res = await fetch(
-			`http://localhost:4000/users?username=${username}`,
-			{ signal }
-		);
+		const res = await fetch(`http://localhost:4000/users?username=${username}`, { signal });
 
 		let user;
 
