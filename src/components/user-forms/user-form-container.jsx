@@ -22,7 +22,7 @@ const UserFormContainer = () => {
 	if (currentForm === USER_FORMS.FILTERS) return null;
 
 	return (
-		<div className='p-6 rounded-md shadow mb-8 relative'>
+		<div className='p-6 rounded-md shadow relative'>
 			<IconButton
 				onClick={setFiltersForm}
 				icon={CrossIcon}

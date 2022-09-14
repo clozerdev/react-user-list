@@ -12,11 +12,14 @@ import Select from '../forms/select';
 const UserCreateForm = () => {
 	const { onSuccess } = useContext(UserFormsContext);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { username, name, isFormInvalid, setName, setUsername } = useCreateForm();
+	const { username, name, isFormInvalid, setName, setUsername } =
+		useCreateForm();
 
 	return (
 		<form
-			onSubmit={ev => handleSubmit(ev, name, username, setIsSubmitting, onSuccess)}
+			onSubmit={ev =>
+				handleSubmit(ev, name, username, setIsSubmitting, onSuccess)
+			}
 			className='space-y-6'
 		>
 			<div className='flex justify-between'>
@@ -34,7 +37,9 @@ const UserCreateForm = () => {
 					placeholder='johndoe'
 					loading={username.loading}
 					error={username.error}
-					success={username.value && !username.loading && !username.error}
+					success={
+						username.value && !username.loading && !username.error
+					}
 					value={username.value}
 					onChange={ev => setUsername(ev.target.value)}
 				/>

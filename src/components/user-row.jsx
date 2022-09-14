@@ -11,7 +11,7 @@ const UserRow = ({ id, username, name, active, role }) => {
 	const { setEditForm, setDeleteForm } = useContext(UserFormsContext);
 
 	return (
-		<div className='flex items-center shadow rounded-md p-4 mb-4'>
+		<div className='flex items-center shadow rounded-md p-4 mb-4 w-full'>
 			<div className='w-[45%]'>
 				<UserDisplay name={name} username={username} />
 			</div>
@@ -24,7 +24,9 @@ const UserRow = ({ id, username, name, active, role }) => {
 			<div className='flex-c-c w-[15%]'>
 				<IconButton
 					icon={PencilIcon}
-					onClick={() => setEditForm({ id, username, name, active, role })}
+					onClick={() =>
+						setEditForm({ id, username, name, active, role })
+					}
 				/>
 				<IconButton
 					icon={TrashIcon}
