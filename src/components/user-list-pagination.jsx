@@ -1,6 +1,6 @@
-import { ITEMS_PER_PAGE } from '../../constants/items-per-page';
-import PageSelector from '../forms/page-selector';
-import Select from '../forms/select';
+import { ITEMS_PER_PAGE } from '../constants/items-per-page';
+import PageSelector from './forms/page-selector';
+import Select from './forms/select';
 
 const UserListPagination = ({ page, itemsPerPage, setPage, setItemsPerPage, totalPages }) => (
 	<div className='flex-c-b mt-8'>

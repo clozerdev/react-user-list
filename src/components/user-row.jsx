@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { UserFormsContext } from '../../lib/contexts/user-forms-context';
-import IconButton from '../buttons/icon-button';
-import PencilIcon from '../icons/pencil-icon';
-import TrashIcon from '../icons/trash-icon';
+import { UserFormsContext } from '../lib/contexts/user-forms-context';
+import IconButton from './buttons/icon-button';
+import PencilIcon from './icons/pencil-icon';
+import TrashIcon from './icons/trash-icon';
 import UserDisplay from './user-display';
 import UserRole from './user-role';
 import UserStatus from './user-status';

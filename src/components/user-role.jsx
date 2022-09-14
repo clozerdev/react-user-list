@@ -1,4 +1,4 @@
-import { USER_ROLES } from '../../constants/user-roles.constant';
+import { USER_ROLES } from '../constants/user-roles.constant';
 
 const ROLE_CLASSNAMES = {
 	[USER_ROLES.TEACHER]: 'bg-blue',

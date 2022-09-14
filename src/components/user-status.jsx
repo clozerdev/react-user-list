@@ -1,5 +1,5 @@
-import CheckCircleIcon from '../icons/check-circle-icon';
-import CrossCircleIcon from '../icons/cross-circle-icon';
+import CheckCircleIcon from './icons/check-circle-icon';
+import CrossCircleIcon from './icons/cross-circle-icon';
 
 const UserStatus = ({ active }) => {
 	const activeClassname = active ? 'text-green' : 'text-red';

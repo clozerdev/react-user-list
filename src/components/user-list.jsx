@@ -1,8 +1,8 @@
-import { useFilters } from '../../lib/hooks/use-filters';
-import { useUsers } from '../../lib/hooks/use-users';
-import { getUsersToDisplay } from '../../lib/users/filter-users';
-import UserFormsProvider from '../providers/user-forms-provider';
-import UserFormContainer from '../user-forms/user-form-container';
+import { useFilters } from '../lib/hooks/use-filters';
+import { useUsers } from '../lib/hooks/use-users';
+import { getUsersToDisplay } from '../lib/users/filter-users';
+import UserFormsProvider from './providers/user-forms-provider';
+import UserFormContainer from './user-forms/user-form-container';
 import UsersListFilter from './user-list-filters';
 import UserListPagination from './user-list-pagination';
 import UsersListRows from './user-list-rows';
