@@ -20,14 +20,20 @@ const CLASSNAMES = {
 	}
 };
 
-const IconButton = ({ kind = 'black', filled, icon: Icon, className, ...props }) => {
+const IconButton = ({
+	kind = 'black',
+	filled,
+	icon: Icon,
+	className,
+	...props
+}) => {
 	const classNames = CLASSNAMES[kind];
 	const classNameKey = filled ? 'filled' : 'normal';
 	const kindClassname = classNames[classNameKey];
 
 	const buttonClassname = `h-10 w-10 rounded-[50%] flex-c-c ${className} ${kindClassname} ${
 		filled && 'text-white'
-	} disabled:bg-lightgray`;
+	} disabled:bg-lightgray focus:shadow outline-none`;
 
 	return (
 		<button {...props} className={buttonClassname}>

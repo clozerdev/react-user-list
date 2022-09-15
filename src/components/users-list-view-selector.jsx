@@ -6,7 +6,7 @@ const UsersListViewSelector = ({ showRowsFormat, setShowRowsFormat }) => (
 		<button
 			onClick={() => setShowRowsFormat(false)}
 			disabled={!showRowsFormat}
-			className='text-lightgray disabled:text-black'
+			className='text-lightgray disabled:text-black focus:shadow outline-none'
 		>
 			<GridIcon className='h-8 w-8' />
 		</button>
@@ -14,7 +14,7 @@ const UsersListViewSelector = ({ showRowsFormat, setShowRowsFormat }) => (
 		<button
 			onClick={() => setShowRowsFormat(true)}
 			disabled={showRowsFormat}
-			className='text-lightgray disabled:text-black'
+			className='text-lightgray disabled:text-black focus:shadow outline-none'
 		>
 			<ListIcon className='h-8 w-8' />
 		</button>
