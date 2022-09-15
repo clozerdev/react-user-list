@@ -1,12 +1,12 @@
 import UserCard from './user-card';
 import UserRow from './user-row';
 
-const UsersListRows = ({ users, error, loading, view }) => {
+const UsersListRows = ({ users, error, loading, showRowsFormat }) => {
 	if (loading) return <p>Cargando usuarios...</p>;
 	if (error) return <p>Se ha producido un error al cargar los usuarios...</p>;
 	if (!users.length) return <p>No existen usuarios...</p>;
 
-	const UserComponent = view ? UserRow : UserCard;
+	const UserComponent = showRowsFormat ? UserRow : UserCard;
 
 	return (
 		<div className='flex flex-wrap'>

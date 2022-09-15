@@ -9,12 +9,11 @@ import UsersListRows from './user-list-rows';
 import UsersListViewSelector from './users-list-view-selector';
 
 const UsersList = () => {
-	const [view, setView] = useState(true);
+	const [showRowsFormat, setShowRowsFormat] = useState(true);
 
 	const { filters, filtersSetters, paginationSetters, resetFilters } =
 		useFilters();
-
-	const { users, usersError, usersLoading, usersCount } = useUsers(filters);
+	const { users, totalUsers, usersError, usersLoading } = useUsers(filters);
 
 	return (
 		<div className='max-w-container mx-auto space-y-4'>
@@ -29,18 +28,21 @@ const UsersList = () => {
 					{...filtersSetters}
 				/>
 				<UserFormContainer />
-				<UsersListViewSelector view={view} setView={setView} />
+				<UsersListViewSelector
+					showRowsFormat={showRowsFormat}
+					setShowRowsFormat={setShowRowsFormat}
+				/>
 				<UsersListRows
 					users={users}
 					error={usersError}
 					loading={usersLoading}
-					view={view}
+					showRowsFormat={showRowsFormat}
 				/>
 			</UserFormsProvider>
 			<UserListPagination
 				page={filters.page}
 				itemsPerPage={filters.itemsPerPage}
-				totalUsers={usersCount}
+				totalUsers={totalUsers}
 				{...paginationSetters}
 			/>
 		</div>
