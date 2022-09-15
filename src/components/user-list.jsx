@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useFilters } from '../lib/hooks/use-filters';
 import { useUsers } from '../lib/hooks/use-users';
-import { getUsersToDisplay } from '../lib/users/filter-users';
 import UserFormsProvider from './providers/user-forms-provider';
 import UserFormContainer from './user-forms/user-form-container';
 import UsersListFilter from './user-list-filters';
@@ -12,43 +11,37 @@ import UsersListViewSelector from './users-list-view-selector';
 const UsersList = () => {
 	const [view, setView] = useState(true);
 
-	const {
-		filters,
-		pagination,
-		filtersSetters,
-		paginationSetters,
-		resetFilters
-	} = useFilters();
-	const { users, usersError, usersLoading, reloadUsers } = useUsers();
-	const { paginatedUsers, totalPages } = getUsersToDisplay(
-		users,
-		filters,
-		pagination
-	);
+	const { filters, filtersSetters, paginationSetters, resetFilters } =
+		useFilters();
+
+	const { users, usersError, usersLoading, usersCount } = useUsers(filters);
 
 	return (
 		<div className='max-w-container mx-auto space-y-4'>
 			<h1 className='font-bold text-xl text-center my-8'>
 				Listado de usuarios
 			</h1>
-			<UserFormsProvider
-				reloadUsers={reloadUsers}
-				resetFilters={resetFilters}
-			>
-				<UsersListFilter {...filters} {...filtersSetters} />
-				<UsersListViewSelector view={view} setView={setView} />
+			<UserFormsProvider resetFilters={resetFilters}>
+				<UsersListFilter
+					search={filters.search}
+					sortBy={filters.sortBy}
+					onlyActive={filters.onlyActive}
+					{...filtersSetters}
+				/>
 				<UserFormContainer />
+				<UsersListViewSelector view={view} setView={setView} />
 				<UsersListRows
-					users={paginatedUsers}
+					users={users}
 					error={usersError}
 					loading={usersLoading}
 					view={view}
 				/>
 			</UserFormsProvider>
 			<UserListPagination
-				{...pagination}
+				page={filters.page}
+				itemsPerPage={filters.itemsPerPage}
+				totalUsers={usersCount}
 				{...paginationSetters}
-				totalPages={totalPages}
 			/>
 		</div>
 	);

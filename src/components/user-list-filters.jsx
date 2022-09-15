@@ -9,10 +9,10 @@ import Select from './forms/select';
 
 const UsersListFilter = ({
 	search,
-	setSearch,
 	onlyActive,
-	setOnlyActive,
 	sortBy,
+	setSearch,
+	setOnlyActive,
 	setSortBy
 }) => {
 	const { currentForm, setCreateForm } = useContext(UserFormsContext);

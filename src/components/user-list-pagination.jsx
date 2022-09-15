@@ -7,7 +7,7 @@ const UserListPagination = ({
 	itemsPerPage,
 	setPage,
 	setItemsPerPage,
-	totalPages
+	totalUsers
 }) => (
 	<div className='flex-c-b mt-8'>
 		<div className='flex items-center gap-4'>
@@ -21,7 +21,11 @@ const UserListPagination = ({
 			</Select>
 			<p>Elementos por página</p>
 		</div>
-		<PageSelector page={page} setPage={setPage} totalPages={totalPages} />
+		<PageSelector
+			page={page}
+			setPage={setPage}
+			totalPages={Math.ceil(totalUsers / itemsPerPage)}
+		/>
 	</div>
 );
 
