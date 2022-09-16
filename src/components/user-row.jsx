@@ -11,7 +11,7 @@ const UserRow = ({ id, username, name, active, role }) => {
 	const { setEditForm, setDeleteForm } = useContext(UserFormsContext);
 
 	return (
-		<div className='flex items-center shadow rounded-md p-4 mb-4 w-full'>
+		<div className='flex items-center shadow rounded-md px-6 py-3 mb-4 w-full'>
 			<div className='w-[45%]'>
 				<UserDisplay name={name} username={username} />
 			</div>

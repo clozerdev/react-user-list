@@ -12,17 +12,8 @@ import Select from '../forms/select';
 const UserEditForm = () => {
 	const { currentUser, onSuccess } = useContext(UserFormsContext);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const {
-		username,
-		name,
-		role,
-		active,
-		isFormInvalid,
-		setName,
-		setUsername,
-		setRole,
-		setActive
-	} = useEditForm(currentUser);
+	const { username, name, role, active, isFormInvalid, dispatchFormValues } =
+		useEditForm(currentUser);
 
 	return (
 		<form
@@ -49,7 +40,12 @@ const UserEditForm = () => {
 					placeholder='John Doe'
 					error={name.error}
 					value={name.value}
-					onChange={ev => setName(ev.target.value)}
+					onChange={ev =>
+						dispatchFormValues({
+							type: 'name_changed',
+							value: ev.target.value
+						})
+					}
 				/>
 				<InputTextAsync
 					className='w-[45%]'
@@ -63,17 +59,39 @@ const UserEditForm = () => {
 						!username.error
 					}
 					value={username.value}
-					onChange={ev => setUsername(ev.target.value)}
+					onChange={ev =>
+						dispatchFormValues({
+							type: 'username_changed',
+							value: ev.target.value,
+							currentUsername: currentUser.username
+						})
+					}
 				/>
 			</div>
 			<div className='flex justify-between'>
-				<Select value={role} onChange={ev => setRole(ev.target.value)}>
+				<Select
+					value={role}
+					onChange={ev =>
+						dispatchFormValues({
+							type: 'role_changed',
+							value: ev.target.value
+						})
+					}
+				>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
 					<option value={USER_ROLES.STUDENT}>Alumno</option>
 					<option value={USER_ROLES.OTHER}>Otro</option>
 				</Select>
 				<div className='flex items-center gap-2'>
-					<InputCheckbox checked={active} onChange={ev => setActive(ev.target.checked)} />
+					<InputCheckbox
+						checked={active}
+						onChange={ev =>
+							dispatchFormValues({
+								type: 'active_changed',
+								value: ev.target.checked
+							})
+						}
+					/>
 					<span>Activo</span>
 				</div>
 				<Button type='submit' disabled={isFormInvalid || isSubmitting}>

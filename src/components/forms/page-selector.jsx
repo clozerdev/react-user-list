@@ -2,7 +2,7 @@ import IconButton from '../buttons/icon-button';
 import ArrowLeftIcon from '../icons/arrow-left-icon,';
 import ArrowRightIcon from '../icons/arrow-right-icon';
 
-const PageSelector = ({ page, setPage, totalPages }) => {
+const PageSelector = ({ page, dispatchFilters, totalPages }) => {
 	const isFirstPage = page === 1;
 	const isLastPage = page === totalPages || totalPages === 0;
 
@@ -12,7 +12,12 @@ const PageSelector = ({ page, setPage, totalPages }) => {
 				filled
 				disabled={isFirstPage}
 				icon={ArrowLeftIcon}
-				onClick={() => setPage(page - 1)}
+				onClick={() =>
+					dispatchFilters({
+						value: page - 1,
+						type: 'page_changed'
+					})
+				}
 			/>
 			<span>
 				Página {page} de {totalPages || 1}
@@ -21,7 +26,12 @@ const PageSelector = ({ page, setPage, totalPages }) => {
 				filled
 				disabled={isLastPage}
 				icon={ArrowRightIcon}
-				onClick={() => setPage(page + 1)}
+				onClick={() =>
+					dispatchFilters({
+						value: page + 1,
+						type: 'page_changed'
+					})
+				}
 			/>
 		</div>
 	);

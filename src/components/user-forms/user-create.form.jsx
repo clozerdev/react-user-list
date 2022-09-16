@@ -12,7 +12,7 @@ import Select from '../forms/select';
 const UserCreateForm = () => {
 	const { onSuccess } = useContext(UserFormsContext);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const { username, name, isFormInvalid, setName, setUsername } =
+	const { username, name, isFormInvalid, dispatchFormValues } =
 		useCreateForm();
 
 	return (
@@ -29,7 +29,12 @@ const UserCreateForm = () => {
 					placeholder='John Doe'
 					error={name.error}
 					value={name.value}
-					onChange={ev => setName(ev.target.value)}
+					onChange={ev =>
+						dispatchFormValues({
+							type: 'name_changed',
+							value: ev.target.value
+						})
+					}
 				/>
 				<InputTextAsync
 					className='w-[45%]'
@@ -41,7 +46,12 @@ const UserCreateForm = () => {
 						username.value && !username.loading && !username.error
 					}
 					value={username.value}
-					onChange={ev => setUsername(ev.target.value)}
+					onChange={ev =>
+						dispatchFormValues({
+							type: 'username_changed',
+							value: ev.target.value
+						})
+					}
 				/>
 			</div>
 			<div className='flex justify-between'>

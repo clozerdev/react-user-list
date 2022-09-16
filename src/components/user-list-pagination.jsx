@@ -5,15 +5,19 @@ import Select from './forms/select';
 const UserListPagination = ({
 	page,
 	itemsPerPage,
-	setPage,
-	setItemsPerPage,
+	dispatchFilters,
 	totalUsers
 }) => (
 	<div className='flex-c-b mt-8'>
 		<div className='flex items-center gap-4'>
 			<Select
 				value={itemsPerPage}
-				onChange={ev => setItemsPerPage(Number(ev.target.value))}
+				onChange={ev =>
+					dispatchFilters({
+						value: Number(ev.target.value),
+						type: 'items_per_page_changed'
+					})
+				}
 			>
 				{PAGINATION.ITEMS_PER_PAGE_VALUES.map(value => (
 					<option key={value} value={value}>
@@ -25,7 +29,7 @@ const UserListPagination = ({
 		</div>
 		<PageSelector
 			page={page}
-			setPage={setPage}
+			dispatchFilters={dispatchFilters}
 			totalPages={Math.ceil(totalUsers / itemsPerPage)}
 		/>
 	</div>

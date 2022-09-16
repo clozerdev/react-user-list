@@ -11,8 +11,7 @@ import UsersListViewSelector from './users-list-view-selector';
 const UsersList = () => {
 	const [showRowsFormat, setShowRowsFormat] = useState(true);
 
-	const { filters, filtersSetters, paginationSetters, resetFilters } =
-		useFilters();
+	const { filters, dispatchFilters } = useFilters();
 	const { users, totalUsers, usersError, usersLoading } = useUsers(filters);
 
 	return (
@@ -20,12 +19,14 @@ const UsersList = () => {
 			<h1 className='font-bold text-xl text-center my-8'>
 				Listado de usuarios
 			</h1>
-			<UserFormsProvider resetFilters={resetFilters}>
+			<UserFormsProvider
+				resetFilters={() => dispatchFilters({ type: 'reset' })}
+			>
 				<UsersListFilter
 					search={filters.search}
 					sortBy={filters.sortBy}
 					onlyActive={filters.onlyActive}
-					{...filtersSetters}
+					dispatchFilters={dispatchFilters}
 				/>
 				<UserFormContainer />
 				<UsersListViewSelector
@@ -43,7 +44,7 @@ const UsersList = () => {
 				page={filters.page}
 				itemsPerPage={filters.itemsPerPage}
 				totalUsers={totalUsers}
-				{...paginationSetters}
+				dispatchFilters={dispatchFilters}
 			/>
 		</div>
 	);

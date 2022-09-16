@@ -7,14 +7,7 @@ import InputCheckbox from './forms/input-checkbox';
 import InputSearch from './forms/input-search';
 import Select from './forms/select';
 
-const UsersListFilter = ({
-	search,
-	onlyActive,
-	sortBy,
-	setSearch,
-	setOnlyActive,
-	setSortBy
-}) => {
+const UsersListFilter = ({ search, onlyActive, sortBy, dispatchFilters }) => {
 	const { currentForm, setCreateForm } = useContext(UserFormsContext);
 	if (currentForm !== USER_FORMS.FILTERS) return null;
 
@@ -24,12 +17,22 @@ const UsersListFilter = ({
 				<InputSearch
 					placeholder='Buscar...'
 					value={search}
-					onChange={ev => setSearch(ev.target.value)}
+					onChange={ev =>
+						dispatchFilters({
+							type: 'search_changed',
+							value: ev.target.value
+						})
+					}
 					className='w-1/2'
 				/>
 				<Select
 					value={sortBy}
-					onChange={ev => setSortBy(Number(ev.target.value))}
+					onChange={ev =>
+						dispatchFilters({
+							type: 'sort_by_changed',
+							value: ev.target.value
+						})
+					}
 				>
 					<option value={SORT_OPTIONS.DEFAULT}>Por defecto</option>
 					<option value={SORT_OPTIONS.NAME}>Por nombre</option>
@@ -44,7 +47,12 @@ const UsersListFilter = ({
 				<div className='flex items-center'>
 					<InputCheckbox
 						checked={onlyActive}
-						onChange={ev => setOnlyActive(ev.target.checked)}
+						onChange={ev =>
+							dispatchFilters({
+								type: 'only_active_changed',
+								value: ev.target.checked
+							})
+						}
 						className='mr-3'
 					/>
 					<p>Mostrar sólo activos</p>

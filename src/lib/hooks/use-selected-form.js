@@ -9,7 +9,8 @@ export const useSelectedForm = () => {
 	const setFiltersForm = () => setCurrentForm({ form: USER_FORMS.FILTERS });
 	const setCreateForm = () => setCurrentForm({ form: USER_FORMS.CREATE });
 	const setEditForm = user => setCurrentForm({ form: USER_FORMS.EDIT, user });
-	const setDeleteForm = user => setCurrentForm({ form: USER_FORMS.DELETE, user });
+	const setDeleteForm = user =>
+		setCurrentForm({ form: USER_FORMS.DELETE, user });
 
 	return {
 		currentForm: currentForm.form,
