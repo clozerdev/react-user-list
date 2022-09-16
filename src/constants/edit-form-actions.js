@@ -1,0 +1,8 @@
+export const EDIT_FORM_ACTIONS = {
+	NAME: 0,
+	USERNAME: 1,
+	ROLE: 2,
+	ACTIVE: 3,
+	USERNAME_ERROR: 4,
+	REPLACE: 5
+};

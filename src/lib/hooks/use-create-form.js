@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from 'react';
+import { CREATE_FORM_ACTIONS } from '../../constants/create-form-actions';
 import { findUserByUsername } from '../api/user-api';
 import { validateName, validateUsername } from '../users/user-validations';
 
@@ -16,7 +17,7 @@ const INITIAL_STATE = {
 
 const formValuesReducer = (state, action) => {
 	switch (action.type) {
-		case 'name_changed': {
+		case CREATE_FORM_ACTIONS.NAME: {
 			const error = validateName(action.value);
 
 			return {
@@ -24,7 +25,7 @@ const formValuesReducer = (state, action) => {
 				name: { value: action.value, error }
 			};
 		}
-		case 'username_changed': {
+		case CREATE_FORM_ACTIONS.USERNAME: {
 			const error = validateUsername(action.value);
 
 			return {
@@ -32,7 +33,7 @@ const formValuesReducer = (state, action) => {
 				username: { value: action.value, loading: !error, error }
 			};
 		}
-		case 'username_error_changed':
+		case CREATE_FORM_ACTIONS.USERNAME_ERROR:
 			return {
 				...state,
 				username: {
@@ -90,12 +91,12 @@ const validateUsernameIsAvailable = async (
 	if (aborted) return;
 	if (error)
 		return dispatchFormValues({
-			type: 'username_error_changed',
+			type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
 			value: 'Error al validar'
 		});
 
 	dispatchFormValues({
-		type: 'username_error_changed',
+		type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
 		value: user ? 'Ya está en uso' : undefined
 	});
 };

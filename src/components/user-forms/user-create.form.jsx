@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { CREATE_FORM_ACTIONS } from '../../constants/create-form-actions';
 import { USER_ROLES } from '../../constants/user-roles.constant';
 import { createUserApi } from '../../lib/api/user-api';
 import { UserFormsContext } from '../../lib/contexts/user-forms-context';
@@ -31,7 +32,7 @@ const UserCreateForm = () => {
 					value={name.value}
 					onChange={ev =>
 						dispatchFormValues({
-							type: 'name_changed',
+							type: CREATE_FORM_ACTIONS.NAME,
 							value: ev.target.value
 						})
 					}
@@ -48,7 +49,7 @@ const UserCreateForm = () => {
 					value={username.value}
 					onChange={ev =>
 						dispatchFormValues({
-							type: 'username_changed',
+							type: CREATE_FORM_ACTIONS.USERNAME,
 							value: ev.target.value
 						})
 					}

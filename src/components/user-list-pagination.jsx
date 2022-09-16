@@ -1,3 +1,4 @@
+import { FILTERS_ACTIONS } from '../constants/filters-actions';
 import { PAGINATION } from '../constants/pagination';
 import PageSelector from './forms/page-selector';
 import Select from './forms/select';
@@ -29,8 +30,10 @@ const UserListPagination = ({
 		</div>
 		<PageSelector
 			page={page}
-			dispatchFilters={dispatchFilters}
 			totalPages={Math.ceil(totalUsers / itemsPerPage)}
+			setPage={newPage =>
+				dispatchFilters({ type: FILTERS_ACTIONS.PAGE, value: newPage })
+			}
 		/>
 	</div>
 );
