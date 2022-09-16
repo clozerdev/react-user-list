@@ -1,64 +1,16 @@
 import { useEffect, useReducer } from 'react';
 import { CREATE_FORM_ACTIONS } from '../../constants/create-form-actions';
 import { findUserByUsername } from '../api/user-api';
-import { validateName, validateUsername } from '../users/user-validations';
-
-const INITIAL_STATE = {
-	name: {
-		value: '',
-		error: undefined
-	},
-	username: {
-		value: '',
-		loading: false,
-		error: undefined
-	}
-};
-
-const formValuesReducer = (state, action) => {
-	switch (action.type) {
-		case CREATE_FORM_ACTIONS.NAME: {
-			const error = validateName(action.value);
-
-			return {
-				...state,
-				name: { value: action.value, error }
-			};
-		}
-		case CREATE_FORM_ACTIONS.USERNAME: {
-			const error = validateUsername(action.value);
-
-			return {
-				...state,
-				username: { value: action.value, loading: !error, error }
-			};
-		}
-		case CREATE_FORM_ACTIONS.USERNAME_ERROR:
-			return {
-				...state,
-				username: {
-					value: state.username.value,
-					error: action.value,
-					loading: false
-				}
-			};
-		default:
-			throw new Error('Invalid action type');
-	}
-};
+import {
+	createFormReducer,
+	CREATE_FORM_INITIAL_STATE
+} from '../reducers/create-form-reducer';
 
 export const useCreateForm = () => {
 	const [formValues, dispatchFormValues] = useReducer(
-		formValuesReducer,
-		INITIAL_STATE
+		createFormReducer,
+		CREATE_FORM_INITIAL_STATE
 	);
-
-	const isFormInvalid =
-		!formValues.name.value ||
-		!formValues.username.value ||
-		formValues.name.error ||
-		formValues.username.error ||
-		formValues.username.loading;
 
 	useEffect(() => {
 		if (!formValues.username.loading) return;
@@ -77,6 +29,13 @@ export const useCreateForm = () => {
 			clearTimeout(timeoutId);
 		};
 	}, [formValues.username.loading, formValues.username.value]);
+
+	const isFormInvalid =
+		!formValues.name.value ||
+		!formValues.username.value ||
+		formValues.name.error ||
+		formValues.username.error ||
+		formValues.username.loading;
 
 	return { ...formValues, isFormInvalid, dispatchFormValues };
 };

@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 import { FILTERS_ACTIONS } from '../constants/filters-actions';
-import { useFilters } from '../lib/hooks/use-filters';
 import { useUsers } from '../lib/hooks/use-users';
+import {
+	filtersReducer,
+	FILTERS_INITIAL_STATE
+} from '../lib/reducers/filters-reducer';
 import UserFormsProvider from './providers/user-forms-provider';
 import UserFormContainer from './user-forms/user-form-container';
 import UsersListFilter from './user-list-filters';
@@ -11,8 +14,10 @@ import UsersListViewSelector from './users-list-view-selector';
 
 const UsersList = () => {
 	const [showRowsFormat, setShowRowsFormat] = useState(true);
-
-	const { filters, dispatchFilters } = useFilters();
+	const [filters, dispatchFilters] = useReducer(
+		filtersReducer,
+		FILTERS_INITIAL_STATE
+	);
 	const { users, totalUsers, usersError, usersLoading } = useUsers(filters);
 
 	return (

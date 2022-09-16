@@ -1,9 +1,8 @@
-import { useReducer } from 'react';
 import { FILTERS_ACTIONS } from '../../constants/filters-actions';
 import { PAGINATION } from '../../constants/pagination';
 import { SORT_OPTIONS } from '../../constants/sort-options.constant';
 
-const INITIAL_STATE = {
+export const FILTERS_INITIAL_STATE = {
 	search: '',
 	onlyActive: false,
 	sortBy: SORT_OPTIONS.DEFAULT,
@@ -11,7 +10,7 @@ const INITIAL_STATE = {
 	itemsPerPage: PAGINATION.DEFAULT_ITEMS_PER_PAGE
 };
 
-const filtersReducer = (state, action) => {
+export const filtersReducer = (state, action) => {
 	switch (action.type) {
 		case FILTERS_ACTIONS.SEARCH:
 			return {
@@ -50,20 +49,8 @@ const filtersReducer = (state, action) => {
 				itemsPerPage: action.value
 			};
 		case FILTERS_ACTIONS.RESET:
-			return { ...INITIAL_STATE };
+			return { ...FILTERS_INITIAL_STATE };
 		default:
 			throw new Error('Invalid action type');
 	}
-};
-
-export const useFilters = () => {
-	const [filters, dispatchFilters] = useReducer(
-		filtersReducer,
-		INITIAL_STATE
-	);
-
-	return {
-		filters,
-		dispatchFilters
-	};
 };
