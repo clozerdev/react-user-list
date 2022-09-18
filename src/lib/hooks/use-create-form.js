@@ -1,5 +1,5 @@
 import { useEffect, useReducer } from 'react';
-import { CREATE_FORM_ACTIONS } from '../../constants/create-form-actions';
+import { usernameErrorChanged } from '../actions/create-form-actions';
 import { findUserByUsername } from '../api/user-api';
 import {
 	createFormReducer,
@@ -48,14 +48,11 @@ const validateUsernameIsAvailable = async (
 	const { user, error, aborted } = await findUserByUsername(username, signal);
 
 	if (aborted) return;
-	if (error)
-		return dispatchFormValues({
-			type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
-			value: 'Error al validar'
-		});
 
-	dispatchFormValues({
-		type: CREATE_FORM_ACTIONS.USERNAME_ERROR,
-		value: user ? 'Ya está en uso' : undefined
-	});
+	let errorMessage;
+
+	if (error) errorMessage = 'Error al validar';
+	else if (user) errorMessage = 'Ya está en uso';
+
+	dispatchFormValues(usernameErrorChanged(errorMessage));
 };

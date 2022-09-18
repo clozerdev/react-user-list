@@ -1,5 +1,8 @@
-import { FILTERS_ACTIONS } from '../constants/filters-actions';
 import { PAGINATION } from '../constants/pagination';
+import {
+	itemsPerPageChanged,
+	pageChanged
+} from '../lib/actions/filters-actions';
 import PageSelector from './forms/page-selector';
 import Select from './forms/select';
 
@@ -14,10 +17,9 @@ const UserListPagination = ({
 			<Select
 				value={itemsPerPage}
 				onChange={ev =>
-					dispatchFilters({
-						value: Number(ev.target.value),
-						type: 'items_per_page_changed'
-					})
+					dispatchFilters(
+						itemsPerPageChanged(Number(ev.target.value))
+					)
 				}
 			>
 				{PAGINATION.ITEMS_PER_PAGE_VALUES.map(value => (
@@ -31,9 +33,7 @@ const UserListPagination = ({
 		<PageSelector
 			page={page}
 			totalPages={Math.ceil(totalUsers / itemsPerPage)}
-			setPage={newPage =>
-				dispatchFilters({ type: FILTERS_ACTIONS.PAGE, value: newPage })
-			}
+			setPage={newPage => dispatchFilters(pageChanged(newPage))}
 		/>
 	</div>
 );

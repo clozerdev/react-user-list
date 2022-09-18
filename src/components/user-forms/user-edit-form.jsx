@@ -1,6 +1,11 @@
 import { useContext, useState } from 'react';
-import { EDIT_FORM_ACTIONS } from '../../constants/edit-form-actions';
 import { USER_ROLES } from '../../constants/user-roles.constant';
+import {
+	activeChanged,
+	nameChanged,
+	roleChanged,
+	usernameChanged
+} from '../../lib/actions/edit-form-actions';
 import { updateUserApi } from '../../lib/api/user-api';
 import { UserFormsContext } from '../../lib/contexts/user-forms-context';
 import { useEditForm } from '../../lib/hooks/use-edit-form';
@@ -42,10 +47,7 @@ const UserEditForm = () => {
 					error={name.error}
 					value={name.value}
 					onChange={ev =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.NAME,
-							value: ev.target.value
-						})
+						dispatchFormValues(nameChanged(ev.target.value))
 					}
 				/>
 				<InputTextAsync
@@ -61,11 +63,12 @@ const UserEditForm = () => {
 					}
 					value={username.value}
 					onChange={ev =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.USERNAME,
-							value: ev.target.value,
-							currentUsername: currentUser.username
-						})
+						dispatchFormValues(
+							usernameChanged(
+								ev.target.value,
+								currentUser.username
+							)
+						)
 					}
 				/>
 			</div>
@@ -73,10 +76,7 @@ const UserEditForm = () => {
 				<Select
 					value={role}
 					onChange={ev =>
-						dispatchFormValues({
-							type: EDIT_FORM_ACTIONS.ROLE,
-							value: ev.target.value
-						})
+						dispatchFormValues(roleChanged(ev.target.value))
 					}
 				>
 					<option value={USER_ROLES.TEACHER}>Profesor</option>
@@ -87,10 +87,7 @@ const UserEditForm = () => {
 					<InputCheckbox
 						checked={active}
 						onChange={ev =>
-							dispatchFormValues({
-								type: EDIT_FORM_ACTIONS.ACTIVE,
-								value: ev.target.checked
-							})
+							dispatchFormValues(activeChanged(ev.target.checked))
 						}
 					/>
 					<span>Activo</span>
